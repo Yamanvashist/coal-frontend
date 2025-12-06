@@ -28,13 +28,15 @@ export default function ShreeShyamCoalDepot() {
         }
     };
 
+    const API_URL = process.env.REACT_APP_API_URL;
+
     const sendFeedback = async (e) => {
         e.preventDefault();
 
         if (!name.trim() || !phone || !location.trim() || !details.trim()) return;
 
         try {
-            const res = await axios.post("https://coal-backend.onrender.com/api/send", {
+            const res = await axios.post(`${API_URL}/api/send`, {
                 name,
                 phone,
                 location,
