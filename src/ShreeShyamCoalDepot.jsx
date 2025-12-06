@@ -17,6 +17,16 @@ export default function ShreeShyamCoalDepot() {
         setCurrentYear(new Date().getFullYear());
     }, []);
 
+    useEffect(() => {
+  if (error?.toLowerCase().includes("success")) {
+    const timer = setTimeout(() => {
+      setError(""); // or however you clear the error state
+    }, 10000);
+    
+    return () => clearTimeout(timer);
+  }
+}, [error]);
+
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
         if (element) {
@@ -34,7 +44,7 @@ export default function ShreeShyamCoalDepot() {
     const sendFeedback = async (e) => {
         e.preventDefault();
 
-        if (!name.trim() || !phone || !location.trim() || !details.trim()) return;
+        if (!name.trim() || !phone || !location.trim() || !details.trim()) ;
 
         try {
             const res = await axios.post(`${API_URL}/api/send`, {
@@ -486,7 +496,7 @@ export default function ShreeShyamCoalDepot() {
                                         className="w-full rounded-xl border border-gray-700 px-3 py-2 bg-slate-900/95 text-gray-50 text-sm outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/40 transition-all placeholder:text-gray-500"
                                     />
                                 </div>
-                                <div className="space-y-1">
+                                <div className="space-y-1 ">
                                     <label htmlFor="requirement" className="text-xs text-gray-400">Requirement Details</label>
                                     <textarea
                                         value={details} onChange={(e) => setDetails(e.target.value)}
@@ -496,8 +506,8 @@ export default function ShreeShyamCoalDepot() {
                                         className="w-full rounded-xl border border-gray-700 px-3 py-2 bg-slate-900/95 text-gray-50 text-sm outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/40 transition-all placeholder:text-gray-500 resize-y min-h-[110px]"
                                     ></textarea>
                                     {error?.toLowerCase().includes("success") ? (
-                                        <button className="bg-green-500 text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105 shadow-lg animate-pulse">
-                                            <Check className="w-5 h-5 animate-bounce" />
+                                        <button className="bg-green-500 w-full text-center justify-center text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105 shadow-lg animate-pulse ">
+                                            <Check className="w-5 h-5" />
                                             Feedback Submitted
                                         </button>
                                     ) : (
@@ -507,7 +517,7 @@ export default function ShreeShyamCoalDepot() {
                                 </div>
                                 <button
                                     type="submit"
-                                    className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-linear-to-r from-amber-500 to-orange-600 text-gray-900 font-semibold text-sm shadow-lg shadow-amber-500/35 hover:shadow-amber-500/45 hover:-translate-y-0.5 transition-all mt-1 w-full"
+                                    className="inline-flex cursor-pointer items-center justify-center px-6 py-3 rounded-full bg-linear-to-r from-amber-500 to-orange-600 text-gray-900 font-semibold text-sm shadow-lg shadow-amber-500/35 hover:shadow-amber-500/45 hover:-translate-y-0.5 transition-all mt-1 w-full"
                                 >
                                     ✉️ Submit Enquiry (Demo)
                                 </button>
