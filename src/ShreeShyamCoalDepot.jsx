@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios"
 import { Check } from 'lucide-react';
 import { API_URL } from "./config";
+import { Loader } from 'lucide-react';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 
 export default function ShreeShyamCoalDepot() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -12,20 +15,21 @@ export default function ShreeShyamCoalDepot() {
     const [location, setLocation] = useState("")
     const [details, setDetails] = useState("")
     const [error, setError] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         setCurrentYear(new Date().getFullYear());
     }, []);
 
     useEffect(() => {
-  if (error?.toLowerCase().includes("success")) {
-    const timer = setTimeout(() => {
-      setError(""); // or however you clear the error state
-    }, 10000);
-    
-    return () => clearTimeout(timer);
-  }
-}, [error]);
+        if (error?.toLowerCase().includes("success")) {
+            const timer = setTimeout(() => {
+                setError(""); // or however you clear the error state
+            }, 10000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
 
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
@@ -43,8 +47,9 @@ export default function ShreeShyamCoalDepot() {
 
     const sendFeedback = async (e) => {
         e.preventDefault();
+        setIsLoading(true)
 
-        if (!name.trim() || !phone || !location.trim() || !details.trim()) ;
+        if (!name.trim() || !phone || !location.trim() || !details.trim());
 
         try {
             const res = await axios.post(`${API_URL}/api/send`, {
@@ -63,6 +68,7 @@ export default function ShreeShyamCoalDepot() {
             setError(err.response?.data?.message || "Something went wrong");
             console.log("Error:", err.response?.data?.message);
         }
+        setIsLoading(false)
     }
 
     return (
@@ -515,12 +521,18 @@ export default function ShreeShyamCoalDepot() {
                                     )}
 
                                 </div>
-                                <button
+                                {isLoading ? <button
+                                    type="submit"
+                                    disabled={isLoading}
+                                    className="inline-flex cursor-pointer items-center justify-center px-6 py-3 rounded-full bg-linear-to-r from-amber-500 to-orange-600 text-gray-900 font-semibold text-sm shadow-lg shadow-amber-500/35 hover:shadow-amber-500/45 hover:-translate-y-0.5 transition-all mt-1 w-full"
+                                >    <AiOutlineLoading3Quarters className="animate-spin" />
+                                </button> : <button
                                     type="submit"
                                     className="inline-flex cursor-pointer items-center justify-center px-6 py-3 rounded-full bg-linear-to-r from-amber-500 to-orange-600 text-gray-900 font-semibold text-sm shadow-lg shadow-amber-500/35 hover:shadow-amber-500/45 hover:-translate-y-0.5 transition-all mt-1 w-full"
                                 >
-                                    ✉️ Submit Enquiry (Demo)
-                                </button>
+                                    ✉️ Submit Enquiry
+                                </button>}
+
                                 <div className="text-[0.73rem] text-gray-400 mt-1">
                                     Note: This button is for display only. Ask your web developer to connect this form with your preferred email or WhatsApp API.
                                 </div>
