@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios"
+import { Check } from 'lucide-react';
 import { API_URL } from "./config";
 
 export default function ShreeShyamCoalDepot() {
@@ -42,8 +43,12 @@ export default function ShreeShyamCoalDepot() {
                 location,
                 details,
             })
-            setError("Feedback Sent Successfully 😎");
+            setError("Feedback Sent Successfully ");
             console.log("Success:", res.data);
+            setName("");
+            setPhone("");
+            setLocation("");
+            setDetails("");
         } catch (err) {
             setError(err.response?.data?.message || "Something went wrong");
             console.log("Error:", err.response?.data?.message);
@@ -490,15 +495,14 @@ export default function ShreeShyamCoalDepot() {
                                         rows="4"
                                         className="w-full rounded-xl border border-gray-700 px-3 py-2 bg-slate-900/95 text-gray-50 text-sm outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/40 transition-all placeholder:text-gray-500 resize-y min-h-[110px]"
                                     ></textarea>
-                                    <span
-                                        className={
-                                            error?.toLowerCase().includes("success")
-                                                ? "text-green-500 text-sm"
-                                                : "text-red-500 text-sm"
-                                        }
-                                    >
-                                        {error}
-                                    </span>
+                                    {error?.toLowerCase().includes("success") ? (
+                                        <button className="bg-green-500 text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105 shadow-lg animate-pulse">
+                                            <Check className="w-5 h-5 animate-bounce" />
+                                            Feedback Submitted
+                                        </button>
+                                    ) : (
+                                        <span className="text-red-500 text-sm">{error}</span>
+                                    )}
 
                                 </div>
                                 <button
