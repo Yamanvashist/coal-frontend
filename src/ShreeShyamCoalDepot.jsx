@@ -34,7 +34,7 @@ export default function ShreeShyamCoalDepot() {
         if (!name.trim() || !phone || !location.trim() || !details.trim()) return;
 
         try {
-            const res = await axios.post("http://localhost:8000/api/send", {
+            const res = await axios.post("https://coal-backend.onrender.com/api/send", {
                 name,
                 phone,
                 location,
